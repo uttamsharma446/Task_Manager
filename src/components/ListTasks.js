@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   Table,
   TableBody,
@@ -13,6 +14,7 @@ import DeleteTask from "./DeleteTask";
 import UpdateTask from "./UpdateTask";
 import { makeStyles } from "@mui/styles";
 import { API_URL, AUTH_TOKEN } from "../config";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 function ListTasks() {
   const classes = useStyles();
@@ -67,7 +69,7 @@ function ListTasks() {
     <div>
       <div className={classes.filterContainer}>
         <div className={classes.chkContainer}>
-          <label htmlFor="">Status</label>
+          <small htmlFor="">View As- Priority</small>
 
           {PRIORITY.map((data, index) => {
             return (
@@ -87,7 +89,7 @@ function ListTasks() {
             );
           })}
         </div>
-        <button onClick={handleFilter}>Apply</button>
+        <Button onClick={handleFilter}>Apply</Button>
       </div>
       <Divider />
       <TableContainer>
@@ -163,7 +165,7 @@ const useStyles = makeStyles({
   chkbox: {
     fontSize: "0.2rem",
     position: "absolute",
-    bottom: "-1px",
+    bottom: "2px",
     left: "0",
   },
   chkboxLabel: {
@@ -172,10 +174,15 @@ const useStyles = makeStyles({
     fontWeight: "bold",
   },
   chkContainer: {
-    border: "1px solid #000",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    position: "relative",
     padding: "5px",
-    "& label": {
-      fontSize: "0.9rem",
+    "& small": {
+      position: "absolute",
+      left: "-100px",
+      bottom: "10px",
     },
   },
 });
