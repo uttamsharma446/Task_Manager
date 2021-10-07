@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { makeStyles } from "@mui/styles";
 import SnackbarComponent from "./SnackbarComponent";
+import { GlobalContext } from "../context/global.context";
 
 function DeleteTask({ taskId }) {
   const classes = useStyles();
+  const [updateData, setUpdateData] = useContext(GlobalContext);
   const [snackMsg, setSnackMsg] = useState("");
 
   var myHeaders = new Headers();
@@ -25,6 +27,7 @@ function DeleteTask({ taskId }) {
       .then((response) => response.text())
       .then((result) => {
         setSnackMsg("Removed Successfully");
+        setUpdateData((prev) => !prev);
       })
       .catch((error) => console.log("error", error));
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   FormControl,
@@ -11,8 +11,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
 import { API_URL, AUTH_TOKEN } from "../config";
 import SnackbarComponent from "./SnackbarComponent";
+import { GlobalContext } from "../context/global.context";
 
 function CreateTask() {
+  const [updateData, setUpdateData] = useContext(GlobalContext);
+
   const [snackMsg, setSnackMsg] = useState("");
   const classes = useStyles();
   const [data, setData] = useState({
@@ -50,11 +53,13 @@ function CreateTask() {
     const result = await response.json();
     if (result.status == "success") {
       setSnackMsg("Task added successfully");
+      setUpdateData((prev) => !prev);
       setData({
         priority: "",
         message: "",
       });
     } else {
+      setSnackMsg("Please Enter Task..");
     }
   };
 

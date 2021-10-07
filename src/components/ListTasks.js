@@ -8,15 +8,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PRIORITY } from "./CommonData/Priority";
 import DeleteTask from "./DeleteTask";
 import UpdateTask from "./UpdateTask";
 import { makeStyles } from "@mui/styles";
 import { API_URL, AUTH_TOKEN } from "../config";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { GlobalContext } from "../context/global.context";
 
 function ListTasks() {
+  const [updateData, setUpdateData] = useContext(GlobalContext);
   const classes = useStyles();
   const statusRef = useRef();
   const [filterStatus, setFilterStatus] = useState([]);
@@ -39,21 +40,26 @@ function ListTasks() {
 
   useEffect(() => {
     fetchTasks();
-  });
-
+  }, []);
+  useEffect(() => {
+    fetchTasks();
+  }, [updateData]);
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    checked
-      ? setFilterStatus((prev) => {
-          return [...prev, value];
-        })
-      : setFilterStatus((prev) => {
-          return [...prev.filter((d) => d !== value)];
-        });
+    if (checked) {
+      setFilterStatus((prev) => {
+        return [...prev, value];
+      });
+      setUpdateData((prev) => !prev);
+    } else {
+      setUpdateData((prev) => !prev);
+      setFilterStatus((prev) => {
+        return [...prev.filter((d) => d !== value)];
+      });
+    }
   };
   const ar1 = [];
   const handleFilter = (e) => {
-    var arr;
     const ar = filterStatus.map((f) => {
       return tasks.filter((task) => task.priority == f);
     });
@@ -68,13 +74,14 @@ function ListTasks() {
   return (
     <div>
       <div className={classes.filterContainer}>
-        <div className={classes.chkContainer}>
-          <small htmlFor="">View As- Priority</small>
+        <label htmlFor="">View As-</label>
 
+        <div className={classes.chkContainer}>
+          <small htmlFor="">Priority</small>
           {PRIORITY.map((data, index) => {
             return (
               index != 0 && (
-                <div key={index} className={classes.chkboxMain}>
+                <div key={index}>
                   <input
                     className={classes.chkbox}
                     type="checkbox"
@@ -83,13 +90,15 @@ function ListTasks() {
                     value={index}
                     onChange={handleChange}
                   />
-                  <span className={classes.chkboxLabel}>{data}</span>
+                  <span>{data}</span>
                 </div>
               )
             );
           })}
+          <label className={classes.btn} onClick={handleFilter}>
+            Apply
+          </label>
         </div>
-        <Button onClick={handleFilter}>Apply</Button>
       </div>
       <Divider />
       <TableContainer>
@@ -149,40 +158,20 @@ export default ListTasks;
 const useStyles = makeStyles({
   filterContainer: {
     display: "flex",
-    justifyContent: "flex-end",
+    width: "100%",
+    justifyContent: "space-between",
+    flexWrap: "nowrap",
     padding: "10px",
-  },
-  filter: {
-    position: "absolute",
-    right: "10px",
-    top: "0",
-    cursor: "pointer",
-  },
-  chkboxMain: {
-    position: "relative",
-    display: "inline",
-  },
-  chkbox: {
-    fontSize: "0.2rem",
-    position: "absolute",
-    bottom: "2px",
-    left: "0",
-  },
-  chkboxLabel: {
-    marginLeft: "20px",
-    fontSize: "0.7rem",
-    fontWeight: "bold",
   },
   chkContainer: {
     display: "flex",
-    justifyContent: "center",
-    alignContent: "center",
-    position: "relative",
-    padding: "5px",
-    "& small": {
-      position: "absolute",
-      left: "-100px",
-      bottom: "10px",
-    },
+    width: "50%",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  btn: {
+    cursor: "pointer",
+    color: "#2C2891",
+    fontWeight: "bold",
   },
 });

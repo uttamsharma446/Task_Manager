@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
@@ -15,9 +15,11 @@ import DueDate from "./DueDate";
 import { listUser } from "./CommonMethod/listUsers";
 import { API_URL, AUTH_TOKEN } from "../config";
 import SnackbarComponent from "./SnackbarComponent";
+import { GlobalContext } from "../context/global.context";
 
 function UpdateTask({ tasks, taskId }) {
   const classes = useStyles();
+  const [updateData, setUpdateData] = useContext(GlobalContext);
   const [snackMsg, setSnackMsg] = useState("");
 
   const [users, setUsers] = useState(null);
@@ -48,7 +50,6 @@ function UpdateTask({ tasks, taskId }) {
     maxWidth: "100vh",
     width: "100%",
     bgcolor: "background.paper",
-    border: "1px solid #000",
     boxShadow: 24,
     p: 4,
   };
@@ -88,6 +89,7 @@ function UpdateTask({ tasks, taskId }) {
       .then((response) => response.text())
       .then((result) => {
         setSnackMsg("Updated");
+        setUpdateData((prev) => !prev);
         handleClose();
       })
       .catch((error) => console.log("error", error));
@@ -104,9 +106,7 @@ function UpdateTask({ tasks, taskId }) {
       };
     });
   }, []);
-  useEffect(() => {
-    console.log(dueDate);
-  });
+
   return (
     <>
       <div style={{ position: "absolute" }}>
