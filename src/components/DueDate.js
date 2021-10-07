@@ -15,10 +15,15 @@ function DueDate({ dueDate, setDueDate }) {
         className={classes.datePicker}
         renderInput={(props) => <TextField {...props} />}
         label="Due Date"
-        inputFormat="yyyy/MM/dd hh:mm a"
+        inputFormat="dd/MM/yyyy hh:mm a"
         value={dueDate}
         onChange={(newValue) => {
-          console.log(newValue.toDateString());
+          const date = new Date();
+          console.log(
+            `${date.getFullYear()}-${
+              parseInt(date.getMonth()) + 1
+            }-${date.getDate()}`
+          );
           setDueDate(
             newValue.toISOString().replace(".000Z", "").replace("T", " ")
           );

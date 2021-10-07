@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import DueDate from "./DueDate";
-import { listUser } from "./CommonMethod/listUsers";
 import { API_URL, AUTH_TOKEN } from "../config";
 import SnackbarComponent from "./SnackbarComponent";
 import { GlobalContext } from "../context/global.context";
@@ -170,8 +169,12 @@ function UpdateTask({ tasks, taskId }) {
                 onChange={handleChange}
               >
                 {!loading &&
-                  users.map((user) => {
-                    return <MenuItem value={user.id}>{user.name}</MenuItem>;
+                  users.map((user, index) => {
+                    return (
+                      <MenuItem key={index} value={user.id}>
+                        {user.name}
+                      </MenuItem>
+                    );
                   })}
               </Select>
             </FormControl>

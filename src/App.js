@@ -1,5 +1,3 @@
-import { useState } from "react";
-import SnackbarComponent from "./components/SnackbarComponent";
 import GlobalContainer from "./context/global.context";
 import TaskManager from "./Pages/TaskManager";
 

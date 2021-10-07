@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Table,
   TableBody,
@@ -61,7 +60,7 @@ function ListTasks() {
   const ar1 = [];
   const handleFilter = (e) => {
     const ar = filterStatus.map((f) => {
-      return tasks.filter((task) => task.priority == f);
+      return tasks.filter((task) => task.priority === f);
     });
     ar.map((d) => {
       d.map((v) => {
@@ -150,18 +149,28 @@ function ListTasks() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Divider />
+      <div className={classes.container}>
+        <small style={{ fontWeight: "bold" }}>
+          Total {tasks ? tasks.length : "0"} task(s)
+        </small>
+      </div>
     </div>
   );
 }
 
 export default ListTasks;
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: "10px 20px",
+  },
   filterContainer: {
     display: "flex",
     width: "100%",
     justifyContent: "space-between",
     flexWrap: "nowrap",
-    padding: "10px",
+    padding: "10px 10px",
+    fontWeight: "500",
   },
   chkContainer: {
     display: "flex",
@@ -174,4 +183,4 @@ const useStyles = makeStyles({
     color: "#2C2891",
     fontWeight: "bold",
   },
-});
+}));
