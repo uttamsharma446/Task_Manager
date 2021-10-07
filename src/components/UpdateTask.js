@@ -25,7 +25,7 @@ function UpdateTask({ tasks, taskId }) {
   const [users, setUsers] = useState(null);
   const [data, setData] = useState({
     message: "",
-    due_date: "2020-09-18 12:12:12",
+
     priority: "",
     assigned_to: "",
   });
@@ -100,11 +100,12 @@ function UpdateTask({ tasks, taskId }) {
     setData((prev) => {
       return {
         message: task[0].message,
-        due_date: task[0].due_date,
+
         priority: task[0].priority,
         assigned_to: task[0].assigned_to,
       };
     });
+    setDueDate(task[0].due_date);
   }, []);
 
   return (
@@ -153,7 +154,7 @@ function UpdateTask({ tasks, taskId }) {
           </div>
 
           <div className={classes.input}>
-            <DueDate setDueDate={setDueDate} />
+            <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           </div>
           <div className={classes.input}>
             <FormControl className={classes.selectInput}>

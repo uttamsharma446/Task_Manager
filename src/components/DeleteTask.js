@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { makeStyles } from "@mui/styles";
 import SnackbarComponent from "./SnackbarComponent";
 import { GlobalContext } from "../context/global.context";
+import { API_URL, AUTH_TOKEN } from "../config";
 
 function DeleteTask({ taskId }) {
   const classes = useStyles();
@@ -10,7 +11,7 @@ function DeleteTask({ taskId }) {
   const [snackMsg, setSnackMsg] = useState("");
 
   var myHeaders = new Headers();
-  myHeaders.append("AuthToken", "UrM4YHgb1FcqEf1tuKwmAMMX5MxFZ12a");
+  myHeaders.append("AuthToken", AUTH_TOKEN);
 
   const handleDelete = (id) => {
     var formdata = new FormData();
@@ -23,7 +24,7 @@ function DeleteTask({ taskId }) {
       redirect: "follow",
     };
 
-    fetch("https://devza.com/tests/tasks/delete", requestOptions)
+    fetch(`${API_URL}/delete`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         setSnackMsg("Removed Successfully");
